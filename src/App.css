@@ -1,8 +1,10 @@
 /* =========================================
-   VARIABLES Y RESETEO
+    VARIABLES Y RESETEO
    ========================================= */
 :root {
     --brand-color: #54628A;
+    --success-color: #00a884;
+    /* El verde de Cracks App */
     --bg-light: #f4f4f4;
     --text-dark: #333;
     --white: #ffffff;
@@ -23,7 +25,7 @@ body {
 }
 
 /* =========================================
-   LAYOUT PRINCIPAL
+    LAYOUT PRINCIPAL
    ========================================= */
 .app-container {
     min-height: 100vh;
@@ -45,7 +47,7 @@ body {
 }
 
 /* =========================================
-   DASHBOARD / STATS
+    DASHBOARD / STATS
    ========================================= */
 .home-screen {
     width: 100%;
@@ -65,26 +67,26 @@ body {
 }
 
 /* =========================================
-   GRILLA DE PRODUCTOS (2 Columnas)
+    GRILLA DE PRODUCTOS (4 Columnas Desktop)
    ========================================= */
 .product-list {
     display: grid;
-    /* Prioriza 2 columnas, pero es flexible */
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 450px), 1fr));
+    /* auto-fill: No estira los elementos si hay pocos.
+       minmax(250px, 1fr): Permite que entren hasta 4 en 1200px */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 25px;
     padding: 20px 0;
     width: 100%;
 }
 
 /* =========================================
-   TARJETA DE PRODUCTO (UNIFORME)
+    TARJETA DE PRODUCTO (CUADRADA)
    ========================================= */
 .product-card-link {
     text-decoration: none;
     color: inherit;
     display: block;
-    height: 100%;
-    /* Importante para la grilla */
+    /* Quitamos el height 100% para que el aspect-ratio mande */
 }
 
 .product-card {
@@ -95,10 +97,10 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 
-    /* Flexbox para altura uniforme */
+    /* MAGIA SENIOR: Tarjeta siempre cuadrada */
+    aspect-ratio: 1 / 1;
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
 .product-card-link:hover .product-card {
@@ -107,11 +109,11 @@ body {
     box-shadow: 0 12px 24px rgba(84, 98, 138, 0.2);
 }
 
-/* Imagen */
+/* Imagen en tarjeta cuadrada */
 .card-image-container {
     width: 100%;
-    height: 220px;
-    /* Altura fija para que todas sean iguales */
+    height: 40%;
+    /* Ocupa un poco más de la mitad de la tarjeta */
     background-color: #eee;
 }
 
@@ -119,43 +121,52 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Evita deformación */
 }
 
 /* Contenido Interno */
 .card-content {
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     flex-grow: 1;
-    /* Empuja el footer hacia abajo */
 }
 
 .card-title {
-    font-size: 1.4rem;
-    color: var(--brand-color);
-    margin-bottom: 10px;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    /* Evita que títulos largos rompan el cuadrado */
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .card-details {
-    flex-grow: 1;
-    margin-bottom: 15px;
+    font-size: 0.85rem;
+    color: #666;
 }
 
 .card-details p {
-    margin-bottom: 5px;
-    font-size: 0.95rem;
-    color: #555;
+    margin-bottom: 2px;
 }
 
 .product-price {
     color: var(--brand-color);
     font-weight: bold;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
 }
 
 /* =========================================
-   FORMULARIO
+    FORMULARIO
    ========================================= */
 .inventory-form {
     background-color: var(--white);
@@ -203,7 +214,7 @@ body {
 }
 
 /* =========================================
-   RESPONSIVE
+    RESPONSIVE
    ========================================= */
 @media (max-width: 600px) {
     .main-title {
@@ -215,11 +226,16 @@ body {
     }
 
     .product-list {
+        /* En móvil forzamos 1 sola columna y quitamos el cuadrado 
+           para que se lea mejor el texto */
         grid-template-columns: 1fr;
-        /* Una columna en móvil */
+    }
+
+    .product-card {
+        aspect-ratio: auto;
     }
 
     .card-image-container {
-        height: 180px;
+        height: 200px;
     }
 }
