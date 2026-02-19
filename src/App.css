@@ -1,0 +1,225 @@
+/* =========================================
+   VARIABLES Y RESETEO
+   ========================================= */
+:root {
+    --brand-color: #54628A;
+    --bg-light: #f4f4f4;
+    --text-dark: #333;
+    --white: #ffffff;
+    --border-color: #e0e0e0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+/* =========================================
+   LAYOUT PRINCIPAL
+   ========================================= */
+.app-container {
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-top: 5px solid var(--brand-color);
+}
+
+.main-title {
+    color: var(--brand-color);
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+/* =========================================
+   DASHBOARD / STATS
+   ========================================= */
+.home-screen {
+    width: 100%;
+}
+
+.stats-panel {
+    background-color: var(--white);
+    border-left: 5px solid var(--brand-color);
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* =========================================
+   GRILLA DE PRODUCTOS (2 Columnas)
+   ========================================= */
+.product-list {
+    display: grid;
+    /* Prioriza 2 columnas, pero es flexible */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 450px), 1fr));
+    gap: 25px;
+    padding: 20px 0;
+    width: 100%;
+}
+
+/* =========================================
+   TARJETA DE PRODUCTO (UNIFORME)
+   ========================================= */
+.product-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+    /* Importante para la grilla */
+}
+
+.product-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+
+    /* Flexbox para altura uniforme */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-card-link:hover .product-card {
+    transform: translateY(-8px);
+    border-color: var(--brand-color);
+    box-shadow: 0 12px 24px rgba(84, 98, 138, 0.2);
+}
+
+/* Imagen */
+.card-image-container {
+    width: 100%;
+    height: 220px;
+    /* Altura fija para que todas sean iguales */
+    background-color: #eee;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Evita deformación */
+}
+
+/* Contenido Interno */
+.card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* Empuja el footer hacia abajo */
+}
+
+.card-title {
+    font-size: 1.4rem;
+    color: var(--brand-color);
+    margin-bottom: 10px;
+}
+
+.card-details {
+    flex-grow: 1;
+    margin-bottom: 15px;
+}
+
+.card-details p {
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.product-price {
+    color: var(--brand-color);
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+/* =========================================
+   FORMULARIO
+   ========================================= */
+.inventory-form {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.submit-btn {
+    background-color: var(--brand-color);
+    color: white;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    width: 100%;
+    transition: filter 0.3s;
+}
+
+.submit-btn:hover {
+    filter: brightness(1.2);
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 600px) {
+    .main-title {
+        font-size: 1.8rem;
+    }
+
+    .app-container {
+        padding: 15px;
+    }
+
+    .product-list {
+        grid-template-columns: 1fr;
+        /* Una columna en móvil */
+    }
+
+    .card-image-container {
+        height: 180px;
+    }
+}
