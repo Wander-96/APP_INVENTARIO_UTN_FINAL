@@ -2,12 +2,17 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Routes, Route, Link } from 'react-router';
 import { InventoryContext, InventoryProvider } from './context/InventoryContext'; // <-- Importamos Provider aquí
 
-// Pantallas
+// Pantallas Existentes
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProductDetailScreen from './screens/ProductDetailScreen';
 import AddProductScreen from './screens/AddProductScreen';
 import EditProductScreen from './screens/EditProductScreen';
+
+// NUEVAS Pantallas
+import InventoriesScreen from './screens/InventoriesScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import SupportScreen from './screens/SupportScreen';
 
 import './App.css';
 
@@ -47,9 +52,8 @@ function AppContent() {
             <IconMenu />
           </button>
 
-          {/* CAMBIO SENIOR: Ahora el contenedor del logo es un Link a /inventory */}
-          <Link to="/inventory" className="brand-container" style={{ textDecoration: 'none' }}>
-            {/* LÓGICA SENIOR: Alternamos el logo según el modo activo */}
+          {/* CAMBIO SENIOR: Ahora el contenedor del logo redirige a /inventories (El Hub) */}
+          <Link to="/inventories" className="brand-container" style={{ textDecoration: 'none' }}>
             <img
               src={isDarkMode ? "/logo-straska-negro.png" : "/logo-straska-blanco.png"}
               alt="Straskapp Logo"
@@ -70,7 +74,10 @@ function AppContent() {
           </button>
 
           <div className="nav-icons">
-            <div className="profile-circle"><IconUser /></div>
+            {/* LÓGICA SENIOR: Convertimos el avatar en un link a /profile */}
+            <Link to="/profile" className="profile-circle" style={{ textDecoration: 'none' }}>
+              <IconUser />
+            </Link>
 
             <button className="icon-btn notification-btn">
               <IconBell />
@@ -103,9 +110,10 @@ function AppContent() {
             <button className="icon-btn" onClick={() => setIsSidebarOpen(false)}>✕</button>
           </div>
           <ul className="sidebar-links">
-            <li><Link to="/inventory" onClick={() => setIsSidebarOpen(false)}>📦 Inventarios</Link></li>
-            <li><Link to="#" onClick={() => setIsSidebarOpen(false)}>👤 Perfil</Link></li>
-            <li><Link to="#" onClick={() => setIsSidebarOpen(false)}>🎧 Contacto y Soporte</Link></li>
+            {/* LÓGICA SENIOR: Conectamos los links a sus nuevas rutas */}
+            <li><Link to="/inventories" onClick={() => setIsSidebarOpen(false)}>📦 Inventarios</Link></li>
+            <li><Link to="/profile" onClick={() => setIsSidebarOpen(false)}>👤 Perfil</Link></li>
+            <li><Link to="/support" onClick={() => setIsSidebarOpen(false)}>🎧 Contacto y Soporte</Link></li>
           </ul>
         </aside>
       </div>
@@ -114,7 +122,11 @@ function AppContent() {
       <main className="app-container">
         <Routes>
           <Route path="/" element={<LoginScreen />} />
-          <Route path="/inventory" element={<HomeScreen />} />
+          <Route path="/inventories" element={<InventoriesScreen />} /> {/* NUEVO: Hub */}
+          <Route path="/inventory" element={<HomeScreen />} />          {/* Dashboard (Tu inventario principal) */}
+          <Route path="/profile" element={<ProfileScreen />} />         {/* NUEVO: Perfil */}
+          <Route path="/support" element={<SupportScreen />} />         {/* NUEVO: Soporte */}
+
           <Route path="/add" element={<AddProductScreen />} />
           <Route path="/product/:id" element={<ProductDetailScreen />} />
           <Route path="/edit/:id" element={<EditProductScreen />} />
