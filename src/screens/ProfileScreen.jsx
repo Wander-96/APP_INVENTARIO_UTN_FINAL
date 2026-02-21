@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { InventoryContext } from '../context/InventoryContext';
 
 export default function ProfileScreen() {
+    // Obtenemos el perfil del contexto global
+    const { profile, setProfile } = useContext(InventoryContext);
     const [isEditing, setIsEditing] = useState(false);
-
-    // ESTADO INICIAL: Tus datos reales por defecto
-    const [profile, setProfile] = useState({
-        name: 'Santiago Lago',
-        email: 'santiago.lago4@gmail.com',
-        github: 'https://github.com/Wander-96',
-        photo: 'https://github.com/Wander-96.png' // <-- TRUCO SENIOR: Trae tu foto directamente de GitHub
-    });
 
     const handleChange = (e) => {
         setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -71,7 +66,6 @@ export default function ProfileScreen() {
                             <input type="text" name="github" value={profile.github} onChange={handleChange} />
                         ) : (
                             <p style={{ padding: '12px', backgroundColor: 'var(--bg-light)', borderRadius: '6px', color: 'var(--text-dark)' }}>
-                                {/* Hacemos que el link sea clickeable para mayor profesionalismo */}
                                 <a href={profile.github} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--brand-color)', textDecoration: 'none', fontWeight: 'bold' }}>
                                     {profile.github}
                                 </a>
