@@ -1,14 +1,28 @@
 /* =========================================
-    VARIABLES Y RESETEO
+   VARIABLES Y RESETEO
    ========================================= */
 :root {
-    --brand-color: #54628A;
-    --success-color: #00a884;
-    /* El verde de Cracks App */
+    --brand-color: #333947;
+    --success-color: #2b6155;
     --bg-light: #f4f4f4;
-    --text-dark: #333;
+    --text-dark: #333333;
     --white: #ffffff;
     --border-color: #e0e0e0;
+    --navbar-height: 70px;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    /* Sombra suave para modo claro */
+}
+
+/* MODO OSCURO */
+body.dark-mode {
+    --bg-light: #121212;
+    --white: #1e2025;
+    /* Gris muy oscuro con sutil tinte azul/marca */
+    --text-dark: #b6b6b6;
+    --border-color: #2a2d35;
+    --brand-color: #949baf;
+    --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    /* Sombra fuerte para efecto flotante en modo oscuro */
 }
 
 * {
@@ -22,33 +36,259 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text-dark);
     line-height: 1.5;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Transiciones globales para el tema */
+.navbar,
+.sidebar,
+.product-card,
+.stats-panel,
+.inventory-form,
+.nav-search-input,
+.detail-card {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* =========================================
-    LAYOUT PRINCIPAL
+   NAVBAR (ESTILO WEB APP)
+   ========================================= */
+.navbar {
+    width: 100%;
+    height: var(--navbar-height);
+    background-color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.nav-left,
+.nav-right,
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+}
+
+.nav-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+.brand-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--brand-color);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-left: 15px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.icon-btn:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+.profile-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    overflow: hidden;
+}
+
+.notification-btn {
+    position: relative;
+}
+
+.notification-dot {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    background-color: #ff4d4f;
+    border-radius: 50%;
+    border: 2px solid var(--white);
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nav-search-input {
+    width: 0;
+    opacity: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+.nav-search-input.active {
+    width: 220px;
+    opacity: 1;
+    pointer-events: auto;
+    padding: 8px 15px;
+    margin-left: 10px;
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    outline: none;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    color: var(--text-dark);
+}
+
+.toggle-track {
+    width: 42px;
+    height: 22px;
+    background-color: #ccc;
+    border-radius: 22px;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-track.dark {
+    background-color: var(--brand-color);
+}
+
+.toggle-thumb {
+    width: 18px;
+    height: 18px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-thumb.active {
+    transform: translateX(20px);
+}
+
+/* =========================================
+   SIDEBAR (MENÚ LATERAL)
+   ========================================= */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 2000;
+}
+
+.sidebar-overlay.open {
+    visibility: visible;
+    opacity: 1;
+}
+
+.sidebar {
+    width: 280px;
+    height: 100%;
+    background-color: var(--white);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    padding: 25px 20px;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-overlay.open .sidebar {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.sidebar-links {
+    list-style: none;
+}
+
+.sidebar-links li a {
+    display: block;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.sidebar-links li a:hover {
+    background-color: var(--bg-light);
+    color: var(--brand-color);
+}
+
+/* =========================================
+   LAYOUT PRINCIPAL (CONTENIDO)
    ========================================= */
 .app-container {
-    min-height: 100vh;
-    padding: 20px;
+    padding: 30px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    border-top: 5px solid var(--brand-color);
 }
 
-.main-title {
-    color: var(--brand-color);
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-}
-
-/* =========================================
-    DASHBOARD / STATS
-   ========================================= */
 .home-screen {
     width: 100%;
 }
@@ -58,8 +298,8 @@ body {
     border-left: 5px solid var(--brand-color);
     padding: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border-radius: 4px;
+    box-shadow: var(--card-shadow);
+    border-radius: 8px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -67,26 +307,30 @@ body {
 }
 
 /* =========================================
-    GRILLA DE PRODUCTOS (4 Columnas Desktop)
+   DETALLE DEL PRODUCTO (NUEVO)
    ========================================= */
-.product-list {
-    display: grid;
-    /* auto-fill: No estira los elementos si hay pocos.
-       minmax(250px, 1fr): Permite que entren hasta 4 en 1200px */
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 25px;
-    padding: 20px 0;
-    width: 100%;
+.detail-card {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
 }
 
 /* =========================================
-    TARJETA DE PRODUCTO (CUADRADA)
+   GRILLA Y TARJETAS CUADRADAS
    ========================================= */
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+    padding: 10px 0;
+    width: 100%;
+}
+
 .product-card-link {
     text-decoration: none;
     color: inherit;
     display: block;
-    /* Quitamos el height 100% para que el aspect-ratio mande */
 }
 
 .product-card {
@@ -94,26 +338,22 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--card-shadow);
     transition: all 0.3s ease;
-
-    /* MAGIA SENIOR: Tarjeta siempre cuadrada */
     aspect-ratio: 1 / 1;
     display: flex;
     flex-direction: column;
 }
 
 .product-card-link:hover .product-card {
-    transform: translateY(-8px);
+    transform: translateY(-5px);
     border-color: var(--brand-color);
-    box-shadow: 0 12px 24px rgba(84, 98, 138, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Imagen en tarjeta cuadrada */
 .card-image-container {
     width: 100%;
     height: 40%;
-    /* Ocupa un poco más de la mitad de la tarjeta */
     background-color: #eee;
 }
 
@@ -123,7 +363,6 @@ body {
     object-fit: cover;
 }
 
-/* Contenido Interno */
 .card-content {
     padding: 15px;
     display: flex;
@@ -135,7 +374,6 @@ body {
 .card-title {
     font-size: 1.1rem;
     margin-bottom: 5px;
-    /* Evita que títulos largos rompan el cuadrado */
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -144,7 +382,7 @@ body {
 
 .card-details {
     font-size: 0.85rem;
-    color: #666;
+    color: var(--text-dark);
 }
 
 .card-details p {
@@ -161,12 +399,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-color);
     padding-top: 8px;
+    margin-top: 5px;
 }
 
 /* =========================================
-    FORMULARIO
+   FORMULARIO
    ========================================= */
 .inventory-form {
     background-color: var(--white);
@@ -174,7 +413,7 @@ body {
     border-radius: 12px;
     width: 100%;
     max-width: 600px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
 }
 
 .form-group {
@@ -191,9 +430,11 @@ body {
 .form-group textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     font-size: 1rem;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
 }
 
 .submit-btn {
@@ -206,28 +447,26 @@ body {
     font-size: 1rem;
     font-weight: bold;
     width: 100%;
-    transition: filter 0.3s;
+    transition: opacity 0.3s;
 }
 
 .submit-btn:hover {
-    filter: brightness(1.2);
+    opacity: 0.9;
 }
 
 /* =========================================
-    RESPONSIVE
+   RESPONSIVE (MÓVILES)
    ========================================= */
-@media (max-width: 600px) {
-    .main-title {
-        font-size: 1.8rem;
+@media (max-width: 768px) {
+    .nav-search-input.active {
+        width: 150px;
     }
 
-    .app-container {
-        padding: 15px;
+    .brand-name {
+        display: none;
     }
 
     .product-list {
-        /* En móvil forzamos 1 sola columna y quitamos el cuadrado 
-           para que se lea mejor el texto */
         grid-template-columns: 1fr;
     }
 

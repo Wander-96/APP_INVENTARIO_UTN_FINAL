@@ -45,50 +45,52 @@ export default function EditProductScreen() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             <div style={{ alignSelf: 'flex-start', marginBottom: '20px' }}>
-                <Link to={`/product/${id}`} style={{ textDecoration: 'none', color: '#54628A', fontWeight: 'bold' }}>
+                <Link to={`/product/${id}`} style={{ textDecoration: 'none', color: 'var(--brand-color)', fontWeight: 'bold' }}>
                     ← Cancelar y Volver al Detalle
                 </Link>
             </div>
 
             <div className="inventory-form">
-                <h2 style={{ color: '#54628A', marginBottom: '20px' }}>Editar Artículo</h2>
+                <h2 style={{ color: 'var(--brand-color)', marginBottom: '25px', borderBottom: '2px solid var(--border-color)', paddingBottom: '10px' }}>
+                    Editar Artículo
+                </h2>
+
                 <form onSubmit={handleSubmit}>
+
                     <div className="form-group">
-                        <label htmlFor="name">Nombre</label>
+                        <label htmlFor="name">Nombre del Producto</label>
                         <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
                     </div>
 
-                    <div style={{ display: 'flex', gap: '15px', marginBottom: '15px' }}>
-                        <div style={{ flex: 1 }}>
-                            <label>Peso (kg)</label>
-                            <input type="number" name="weight" min="0" step="0.01" value={formData.weight} onChange={handleChange} required />
-                        </div>
-                        <div style={{ flex: 1 }}>
-                            <label>Cantidad</label>
-                            <input type="number" name="quantity" min="0" step="1" value={formData.quantity} onChange={handleChange} required />
-                        </div>
+                    <div className="form-group">
+                        <label>Peso (kg)</label>
+                        <input type="number" name="weight" min="0" step="0.01" value={formData.weight} onChange={handleChange} required />
                     </div>
 
-                    <div style={{ display: 'flex', gap: '15px', marginBottom: '15px' }}>
-                        <div style={{ flex: 1 }}>
-                            <label>Precio ($)</label>
-                            <input type="number" name="price" min="0" step="0.01" value={formData.price} onChange={handleChange} required />
-                        </div>
-                        <div style={{ flex: 1 }}>
-                            <label>Cambiar Foto</label>
-                            <input type="file" accept="image/*" onChange={handleImageChange} style={{ border: 'none', padding: '10px 0' }} />
-                        </div>
+                    <div className="form-group">
+                        <label>Cantidad en stock</label>
+                        <input type="number" name="quantity" min="0" step="1" value={formData.quantity} onChange={handleChange} required />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Precio unitario ($)</label>
+                        <input type="number" name="price" min="0" step="0.01" value={formData.price} onChange={handleChange} required />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Cambiar Foto</label>
+                        <input type="file" accept="image/*" onChange={handleImageChange} style={{ border: '1px dashed var(--border-color)', padding: '10px', cursor: 'pointer' }} />
                     </div>
 
                     {formData.image && (
-                        <div style={{ marginBottom: '15px', textAlign: 'center' }}>
-                            <img src={formData.image} alt="Preview" style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px' }} />
+                        <div style={{ marginBottom: '20px', textAlign: 'center', backgroundColor: 'var(--bg-light)', padding: '10px', borderRadius: '8px' }}>
+                            <img src={formData.image} alt="Preview" style={{ width: '120px', height: '120px', objectFit: 'cover', borderRadius: '8px', border: '2px solid var(--border-color)' }} />
                         </div>
                     )}
 
                     <div className="form-group">
-                        <label>Descripción</label>
-                        <textarea name="description" value={formData.description} onChange={handleChange} rows="3" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ccc', fontFamily: 'inherit' }}></textarea>
+                        <label>Descripción detallada</label>
+                        <textarea name="description" value={formData.description} onChange={handleChange} rows="4"></textarea>
                     </div>
 
                     <button type="submit" className="submit-btn" style={{ marginTop: '10px' }}>Guardar Cambios</button>

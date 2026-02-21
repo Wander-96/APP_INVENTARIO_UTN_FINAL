@@ -22,18 +22,21 @@ export default function ProductDetailScreen() {
         const isConfirmed = window.confirm(`¿Estás seguro de que deseas eliminar "${product.name}" de forma permanente?`);
         if (isConfirmed) {
             deleteProduct(id);
-            navigate('/inventory'); // <-- REDIRECCIÓN CORREGIDA
+            navigate('/inventory');
         }
     };
 
     return (
         <div style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
-            <Link to="/inventory" style={{ textDecoration: 'none', color: '#54628A', fontWeight: 'bold', display: 'inline-block', marginBottom: '20px' }}>
+            <Link to="/inventory" style={{ textDecoration: 'none', color: 'var(--brand-color)', fontWeight: 'bold', display: 'inline-block', marginBottom: '20px' }}>
                 ← Volver al Inventario
             </Link>
 
-            <div style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
-                <h2 style={{ color: product.quantity > 0 ? '#00a884' : '#54628A', marginBottom: '20px', fontSize: '2rem' }}>{product.name}</h2>
+            {/* AQUÍ ESTÁ EL CAMBIO: Usamos className="detail-card" en lugar de style={{ backgroundColor: '#fff' ... }} */}
+            <div className="detail-card">
+                <h2 style={{ color: product.quantity > 0 ? 'var(--success-color)' : 'var(--brand-color)', marginBottom: '20px', fontSize: '2rem' }}>
+                    {product.name}
+                </h2>
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '30px' }}>
                     <div style={{ flex: '1 1 300px' }}>
@@ -49,7 +52,7 @@ export default function ProductDetailScreen() {
                             <p style={{ marginBottom: '10px', fontSize: '1.1rem' }}><strong>Peso:</strong> {product.weight} kg</p>
                             <p style={{ marginBottom: '10px', fontSize: '1.1rem' }}><strong>Cantidad en Stock:</strong> {product.quantity} unidades</p>
                             <p className="product-price" style={{ marginBottom: '10px', fontSize: '1.3rem' }}><strong>Precio unitario:</strong> ${product.price}</p>
-                            <p style={{ margin: '20px 0', color: '#555', lineHeight: '1.6' }}>
+                            <p style={{ margin: '20px 0', color: 'var(--text-dark)', lineHeight: '1.6' }}>
                                 <strong>Descripción:</strong><br />
                                 {product.description || 'No hay descripción disponible para este artículo.'}
                             </p>

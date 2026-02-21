@@ -9,6 +9,9 @@ export const InventoryProvider = ({ children }) => {
         return savedData ? JSON.parse(savedData) : initialInventory;
     });
 
+    // NUEVO ESTADO GLOBAL: El buscador ahora vive aquí
+    const [searchTerm, setSearchTerm] = useState('');
+
     useEffect(() => {
         localStorage.setItem('inventario_pareja', JSON.stringify(products));
     }, [products]);
@@ -27,11 +30,8 @@ export const InventoryProvider = ({ children }) => {
         setProducts((prev) => prev.filter((p) => String(p.id) !== String(id)));
     };
 
-    // LÓGICA DE CÁLCULOS
     const totalWeight = products.reduce((acc, p) => acc + (Number(p.weight) * Number(p.quantity)), 0);
     const totalValue = products.reduce((acc, p) => acc + (Number(p.price) * Number(p.quantity)), 0);
-
-    // NUEVO: Suma de todas las unidades individuales
     const totalQuantity = products.reduce((acc, p) => acc + Number(p.quantity), 0);
 
     return (
@@ -42,7 +42,9 @@ export const InventoryProvider = ({ children }) => {
             deleteProduct,
             totalWeight,
             totalValue,
-            totalQuantity, // <-- Exponemos la nueva variable
+            totalQuantity,
+            searchTerm,     // <-- Exponemos la palabra buscada
+            setSearchTerm,  // <-- Exponemos la función para actualizarla
             brandColor: '#54628A'
         }}>
             {children}
